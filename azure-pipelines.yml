@@ -7,7 +7,7 @@ steps:
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
+      mavenOptions: '-Xmx1024m'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.11'
       jdkArchitectureOption: 'x64'
