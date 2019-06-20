@@ -21,7 +21,7 @@ steps:
     displayName: Artifactory mvn deploy
     inputs:
       mavenPomFile: 'pom.xml'
-      goals: 'deploy'
+      goals: 'clean deploy'
       artifactoryResolverService: 'flightcentre-integration-artifactory'
       targetResolveReleaseRepo: 'flightcentre-integration-maven'
       targetResolveSnapshotRepo: 'flightcentre-integration-maven'
