@@ -4,13 +4,17 @@ pool:
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 
 steps:
-  - task: Maven@3
+  - task: ArtifactoryMaven@1
     inputs:
-      mavenPomFile: "pom.xml"
-      mavenOptions: "-Xmx1024m"
-      javaHomeOption: "JDKVersion"
-      jdkVersionOption: "1.11"
-      jdkArchitectureOption: "x64"
-      publishJUnitResults: false
-      testResultsFiles: "**/TEST-*.xml"
-      goals: "package"
+      mavenPomFile: 'pom.xml'
+      goals: 'package'
+      options: 'Xmx1024m'
+      artifactoryResolverService: 'flightcentre-integration-artifactory'
+      targetResolveReleaseRepo: 'flightcentre-integration-maven'
+      targetResolveSnapshotRepo: 'flightcentre-integration-maven'
+      artifactoryDeployService: 'flightcentre-integration-artifactory'
+      targetDeployReleaseRepo: 'flightcentre-integration-maven'
+      targetDeploySnapshotRepo: 'flightcentre-integration-maven'
+      collectBuildInfo: true
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
