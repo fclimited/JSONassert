@@ -1,0 +1,16 @@
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+
+steps:
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+      mavenOptions: '-Xmx3072m -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.11'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      goals: 'package'
