@@ -8,7 +8,7 @@ steps:
     inputs:
       mavenPomFile: 'pom.xml'
       goals: 'package'
-      options: 'Xmx1024m'
+      options: '-Xmx1024m'
       artifactoryResolverService: 'flightcentre-integration-artifactory'
       targetResolveReleaseRepo: 'flightcentre-integration-maven'
       targetResolveSnapshotRepo: 'flightcentre-integration-maven'
