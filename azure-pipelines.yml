@@ -1,16 +1,16 @@
 pool:
-  vmImage: 'Ubuntu 16.04'
+  vmImage: "Ubuntu 16.04"
 
 name: $(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 
 steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx1024m'
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.11'
-      jdkArchitectureOption: 'x64'
+  - task: Maven@3
+    inputs:
+      mavenPomFile: "pom.xml"
+      mavenOptions: "-Xmx1024m"
+      javaHomeOption: "JDKVersion"
+      jdkVersionOption: "1.11"
+      jdkArchitectureOption: "x64"
       publishJUnitResults: false
-      testResultsFiles: '**/TEST-*.xml'
-      goals: 'package'
+      testResultsFiles: "**/TEST-*.xml"
+      goals: "package"
