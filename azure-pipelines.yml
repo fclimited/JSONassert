@@ -12,6 +12,9 @@ steps:
       artifactoryResolverService: 'flightcentre-integration-artifactory'
       targetResolveReleaseRepo: 'flightcentre-integration-maven'
       targetResolveSnapshotRepo: 'flightcentre-integration-maven'
+      artifactoryDeployService: 'flightcentre-integration-artifactory'
+      targetDeployReleaseRepo: 'flightcentre-integration-maven'
+      targetDeploySnapshotRepo: 'flightcentre-integration-maven'
       collectBuildInfo: true
       buildName: '$(Build.DefinitionName)'
       buildNumber: '$(Build.BuildNumber)'
@@ -20,6 +23,9 @@ steps:
     inputs:
       mavenPomFile: 'pom.xml'
       goals: 'deploy'
+      artifactoryResolverService: 'flightcentre-integration-artifactory'
+      targetResolveReleaseRepo: 'flightcentre-integration-maven'
+      targetResolveSnapshotRepo: 'flightcentre-integration-maven'
       artifactoryDeployService: 'flightcentre-integration-artifactory'
       targetDeployReleaseRepo: 'flightcentre-integration-maven'
       targetDeploySnapshotRepo: 'flightcentre-integration-maven'
