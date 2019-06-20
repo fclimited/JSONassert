@@ -10,25 +10,19 @@ steps:
       mavenPomFile: 'pom.xml'
       goals: 'clean package'
       artifactoryResolverService: 'flightcentre-integration-artifactory'
-      targetResolveReleaseRepo: 'integration-maven'
-      targetResolveSnapshotRepo: 'integration-maven'
-      artifactoryDeployService: 'flightcentre-integration-artifactory'
-      targetDeployReleaseRepo: 'integration-maven'
-      targetDeploySnapshotRepo: 'integration-maven'
-      collectBuildInfo: false
+      targetResolveReleaseRepo: 'flightcentre-integration-maven'
+      targetResolveSnapshotRepo: 'flightcentre-integration-maven'
+      collectBuildInfo: true
       buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
   - task: ArtifactoryMaven@1
     displayName: Artifactory mvn deploy
     inputs:
       mavenPomFile: 'pom.xml'
-      goals: 'clean deploy'
-      artifactoryResolverService: 'flightcentre-integration-artifactory'
-      targetResolveReleaseRepo: 'integration-maven'
-      targetResolveSnapshotRepo: 'integration-maven'
+      goals: 'deploy'
       artifactoryDeployService: 'flightcentre-integration-artifactory'
-      targetDeployReleaseRepo: 'integration-maven'
-      targetDeploySnapshotRepo: 'integration-maven'
-      collectBuildInfo: true
+      targetDeployReleaseRepo: 'flightcentre-integration-maven'
+      targetDeploySnapshotRepo: 'flightcentre-integration-maven'
       buildName: '$(Build.DefinitionName)'
       buildNumber: '$(Build.BuildNumber)'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/SOD-1352'))
