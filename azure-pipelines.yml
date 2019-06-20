@@ -10,11 +10,11 @@ steps:
       mavenPomFile: 'pom.xml'
       goals: 'clean package'
       artifactoryResolverService: 'flightcentre-integration-artifactory'
-      targetResolveReleaseRepo: 'flightcentre-integration-maven'
-      targetResolveSnapshotRepo: 'flightcentre-integration-maven'
+      targetResolveReleaseRepo: 'integration-maven'
+      targetResolveSnapshotRepo: 'integration-maven'
       artifactoryDeployService: 'flightcentre-integration-artifactory'
-      targetDeployReleaseRepo: 'flightcentre-integration-maven'
-      targetDeploySnapshotRepo: 'flightcentre-integration-maven'
+      targetDeployReleaseRepo: 'integration-maven'
+      targetDeploySnapshotRepo: 'integration-maven'
       collectBuildInfo: false
       buildName: '$(Build.DefinitionName)'
   - task: ArtifactoryMaven@1
@@ -23,12 +23,27 @@ steps:
       mavenPomFile: 'pom.xml'
       goals: 'clean deploy'
       artifactoryResolverService: 'flightcentre-integration-artifactory'
-      targetResolveReleaseRepo: 'flightcentre-integration-maven'
-      targetResolveSnapshotRepo: 'flightcentre-integration-maven'
+      targetResolveReleaseRepo: 'integration-maven'
+      targetResolveSnapshotRepo: 'integration-maven'
       artifactoryDeployService: 'flightcentre-integration-artifactory'
-      targetDeployReleaseRepo: 'flightcentre-integration-maven'
-      targetDeploySnapshotRepo: 'flightcentre-integration-maven'
+      targetDeployReleaseRepo: 'integration-maven'
+      targetDeploySnapshotRepo: 'integration-maven'
       collectBuildInfo: true
       buildName: '$(Build.DefinitionName)'
       buildNumber: '$(Build.BuildNumber)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/SOD-1352'))
+  - task: ArtifactoryPublishBuildInfo@1
+    displayName: Artifactory Publish Build Info
+    inputs:
+      artifactoryService: 'flightcentre-integration-artifactory'
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/SOD-1352'))
+  - task: ArtifactoryXrayScan@1
+    displayName: Artifactory Xray Scan
+    inputs:
+      artifactoryService: 'flightcentre-integration-artifactory'
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
+      allowFailBuild: false
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/SOD-1352'))
