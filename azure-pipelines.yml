@@ -23,7 +23,7 @@ steps:
     inputs:
       mavenPomFile: 'pom.xml'
       goals: 'deploy'
-      options: '--url https://flightcentre.jfrog.io/flightcentre/flightcentre-integration-maven'
+      options: '-DaltDeploymentRepository=flightcentre-integration-maven::default::https://flightcentre.jfrog.io/flightcentre/flightcentre-integration-maven'
       artifactoryResolverService: 'flightcentre-integration-artifactory'
       targetResolveReleaseRepo: 'flightcentre-integration-maven'
       targetResolveSnapshotRepo: 'flightcentre-integration-maven'
