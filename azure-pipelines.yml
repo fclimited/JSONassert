@@ -18,7 +18,6 @@ steps:
       collectBuildInfo: true
       buildName: '$(Build.DefinitionName)'
       buildNumber: '$(Build.BuildNumber)'
-  - script: cat /home/vsts/.m2/settings.xml
   - task: ArtifactoryMaven@1
     displayName: Artifactory mvn deploy
     inputs:
