@@ -23,7 +23,7 @@ steps:
     inputs:
       mavenPomFile: 'pom.xml'
       goals: 'deploy'
-      options: '-DaltDeploymentRepository=$(Build.DefinitionName)-$(Build.BuildNumber)-deployer::legacy::https://flightcentre.jfrog.io/flightcentre/flightcentre-integration-maven'
+      options: '-DaltSnapshotDeploymentRepository=https://flightcentre.jfrog.io/flightcentre/flightcentre-integration-maven'
       artifactoryResolverService: 'flightcentre-integration-artifactory'
       targetResolveReleaseRepo: 'flightcentre-integration-maven'
       targetResolveSnapshotRepo: 'flightcentre-integration-maven'
