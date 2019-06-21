@@ -19,6 +19,19 @@ steps:
       buildName: '$(Build.DefinitionName)'
       buildNumber: '$(Build.BuildNumber)'
   - task: ArtifactoryMaven@1
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'help:effective-settings'
+      artifactoryResolverService: 'flightcentre-integration-artifactory'
+      targetResolveReleaseRepo: 'flightcentre-integration-maven'
+      targetResolveSnapshotRepo: 'flightcentre-integration-maven'
+      artifactoryDeployService: 'flightcentre-integration-artifactory'
+      targetDeployReleaseRepo: 'flightcentre-integration-maven'
+      targetDeploySnapshotRepo: 'flightcentre-integration-maven'
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/SOD-1352'))
+  - task: ArtifactoryMaven@1
     displayName: Artifactory mvn deploy
     inputs:
       mavenPomFile: 'pom.xml'
