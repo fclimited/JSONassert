@@ -23,7 +23,7 @@ steps:
     inputs:
       mavenPomFile: 'pom.xml'
       goals: 'deploy'
-      options: '-e'
+      options: '-X'
       artifactoryResolverService: 'flightcentre-integration-artifactory'
       targetResolveReleaseRepo: 'flightcentre-integration-maven'
       targetResolveSnapshotRepo: 'flightcentre-integration-maven'
