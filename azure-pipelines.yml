@@ -18,41 +18,34 @@ steps:
       collectBuildInfo: true
       buildName: '$(Build.DefinitionName)'
       buildNumber: '$(Build.BuildNumber)'
-  - task: ArtifactoryMaven@1
+  - task: DownloadSecureFile@1
+    displayName: Download secure file
     inputs:
-      mavenPomFile: 'pom.xml'
-      goals: 'help:effective-settings'
-      artifactoryResolverService: 'flightcentre-integration-artifactory'
-      targetResolveReleaseRepo: 'flightcentre-integration-maven'
-      targetResolveSnapshotRepo: 'flightcentre-integration-maven'
-      artifactoryDeployService: 'flightcentre-integration-artifactory'
-      targetDeployReleaseRepo: 'flightcentre-integration-maven'
-      targetDeploySnapshotRepo: 'flightcentre-integration-maven'
-      buildName: '$(Build.DefinitionName)'
-      buildNumber: '$(Build.BuildNumber)'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/SOD-1352'))
+      secureFile: 'flightcentre-integration-maven-m2-settings-xml'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
   - task: ArtifactoryMaven@1
     displayName: Artifactory mvn deploy
     inputs:
       mavenPomFile: 'pom.xml'
       goals: 'deploy'
-      options: '-DaltDeploymentRepository=$(Build.DefinitionName)-$(Build.BuildNumber)-deployer::default::https://flightcentre.jfrog.io/flightcentre/flightcentre-integration-maven -X'
+      options: '--settings $DOWNLOADSECUREFILE_SECUREFILEPATH -DaltDeploymentRepository=flightcentre-integration-maven::default::https://flightcentre.jfrog.io/flightcentre/flightcentre-integration-maven'
       artifactoryResolverService: 'flightcentre-integration-artifactory'
       targetResolveReleaseRepo: 'flightcentre-integration-maven'
       targetResolveSnapshotRepo: 'flightcentre-integration-maven'
       artifactoryDeployService: 'flightcentre-integration-artifactory'
       targetDeployReleaseRepo: 'flightcentre-integration-maven'
       targetDeploySnapshotRepo: 'flightcentre-integration-maven'
+      collectBuildInfo: true
       buildName: '$(Build.DefinitionName)'
       buildNumber: '$(Build.BuildNumber)'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/SOD-1352'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
   - task: ArtifactoryPublishBuildInfo@1
     displayName: Artifactory Publish Build Info
     inputs:
       artifactoryService: 'flightcentre-integration-artifactory'
       buildName: '$(Build.DefinitionName)'
       buildNumber: '$(Build.BuildNumber)'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/SOD-1352'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
   - task: ArtifactoryXrayScan@1
     displayName: Artifactory Xray Scan
     inputs:
@@ -60,4 +53,4 @@ steps:
       buildName: '$(Build.DefinitionName)'
       buildNumber: '$(Build.BuildNumber)'
       allowFailBuild: false
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/SOD-1352'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
