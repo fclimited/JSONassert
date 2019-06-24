@@ -688,6 +688,18 @@ public class JSONAssertTest {
                     }
                 })
          ));
+
+        JSONAssert.assertEquals("Message", json1, json2,
+            new CustomComparator(
+                NON_EXTENSIBLE,
+                new Customization("**.field1ToIgnore",
+                    new ValueMatcher<Object>() {
+                        @Override
+                        public boolean equal(Object o1, Object o2) {
+                            return true;
+                        }
+                    })
+            ));
     }
     
     @Test
@@ -728,6 +740,79 @@ public class JSONAssertTest {
                     }
                 })
          ));
+
+        JSONAssert.assertEquals("Message", json1, json2,
+            new CustomComparator(
+                NON_EXTENSIBLE,
+                new Customization("**.field1ToIgnore",
+                    new ValueMatcher<Object>() {
+                        @Override
+                        public boolean equal(Object o1, Object o2) {
+                            return true;
+                        }
+                    })
+            ));
+    }
+
+    @Test
+    public void testAssertEquals2JSONArraysCompareIgnoringCustomizationsFieldsAndWithExtendFields()
+        throws IllegalArgumentException, JSONException {
+        // Test for issue 109 (https://github.com/skyscreamer/JSONassert/issues/109)
+        String json1 = "{\n" +
+            "  	\"root\": {\n" +
+            "  	\"level\": {\n" +
+            "  		\"array\": [{\n" +
+            "  			\"field1ToIgnore\": \"ignore_value1\",\n" +
+            "  			\"field2\": \"valueA2\",\n" +
+            "  			\"field3\": \"valueA3\"\n" +
+            "  			}, {\n" +
+            "  			\"field1ToIgnore\": \"ignore_value2\",\n" +
+            "  			\"field2\": \"valueB2\",\n" +
+            "  			\"field3\": \"valueB3\"\n" +
+            "  		}]\n" +
+            "  	}\n" +
+            "  	}\n" +
+            "  }\n";
+        String json2 = "{\n" +
+            "  	\"root\": {\n" +
+            "  	\"level\": {\n" +
+            "  		\"array\": [{\n" +
+            "  			\"field1ToIgnore\": \"ignore_value3\",\n" +
+            "  			\"field2\": \"valueB2\",\n" +
+            "  			\"field3\": \"valueB3\"\n" +
+            "  			}, {\n" +
+            "  			\"field1ToIgnore\": \"ignore_value4\",\n" +
+            "  			\"field2\": \"valueA2\",\n" +
+            "  			\"field3\": \"valueA3\",\n" +
+            "  			\"extendField\": \"extend_value1\"\n" +
+            "  		}]\n" +
+            "  	}\n" +
+            "  	}\n" +
+            "  }\n";
+
+        JSONAssert.assertEquals("Message", json1, json2,
+            new CustomComparator(
+                JSONCompareMode.LENIENT,
+                new Customization("**.field1ToIgnore",
+                    new ValueMatcher<Object>() {
+                        @Override
+                        public boolean equal(Object o1, Object o2) {
+                            return true;
+                        }
+                    })
+            ));
+
+        JSONAssert.assertNotEquals("Message", json1, json2,
+            new CustomComparator(
+                NON_EXTENSIBLE,
+                new Customization("**.field1ToIgnore",
+                    new ValueMatcher<Object>() {
+                        @Override
+                        public boolean equal(Object o1, Object o2) {
+                            return true;
+                        }
+                    })
+            ));
     }
     
     private void testPass(String expected, String actual, JSONCompareMode compareMode)
